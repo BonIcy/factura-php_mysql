@@ -3,17 +3,15 @@ require_once("config.php");
 
 $data = new Config();
 $all = $data->selectAll();
-
-$imagenPath = "images/"; // Ruta de la carpeta de imágenes
-$imagenes = scandir($imagenPath); // Obtener la lista de imágenes
-
-// Filtrar la lista de imágenes para eliminar los archivos ocultos (.) y (..)
+ // Ruta de la carpeta de imágenes
+$imagenPath = "images/";
+//uso scandir para obtener la lista de archivos en la carpeta de imágenes y me  devuelve un array con el nombre de los archivos encontrados
+$imagenes = scandir($imagenPath); 
+// uso el array_filter() para filtrar la lista de archivos y eliminar los archivos ocultos (.) y (..)
 $imagenes = array_filter($imagenes, function ($item) {
     return !in_array($item, ['.', '..']);
 });
 ?>
-
-
 <!DOCTYPE html>
 <html>
 
@@ -107,10 +105,12 @@ $imagenes = array_filter($imagenes, function ($item) {
                 <input type="text" id="descripcion" name="descripcion" class="form-control" />
               </div>
               <div class="mb-1 col-12">
+               <!-- ////////foreach para recorrer el array de imágenes y generar las opciones del elemento select//////////-->
                 <label for="imagen" class="form-label">Imagen</label>
                 <select id="imagen" name="imagen" class="form-control">
                   <?php foreach ($imagenes as $imagen): ?>
-                    <option value="<?php echo $imagen; ?>" <?php echo ($val['imagen'] == $imagen) ? 'selected' : ''; ?>><?php echo $imagen; ?></option>
+                     <!-- ////////dentro de cada iteración (en este caso uso foreach) del bucle, se genera una opción del select con el valor y el nombre de la imagen,luego se verifica si la imagen seleccionada coincide con la imagen actual en el bucle ($val['imagen'] == $imagen) y se agrega el atributo 'selected? a la opción correspondiente//////////-->
+                    <option value="<?php echo $imagen; ?>" <?php echo ($val['imagen'] == $imagen) ? 'selected' : ''; ?>><?php echo $imagen; ?></option> <!-- el selected se utiliza en este caso para marcar la opción del elemento select que corresponde a la imagen actual en el bucle -->
                   <?php endforeach; ?>
                 </select>
               </div>
